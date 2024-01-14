@@ -1,0 +1,29 @@
+/* core/static/core/css/styles.css */
+.form-container {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+.form-control {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-register {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* .btn-register:hover {
+    background-color: #007bff;
+    color: #fff;
+} */
