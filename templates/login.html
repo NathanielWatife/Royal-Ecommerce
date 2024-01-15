@@ -40,6 +40,11 @@
 		<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 </head>
 <body>
+	{% for message  in messages %}
+	<h1 class="messages">
+		{{ message }}
+	</h1>
+	{% endfor %}
 	<div class="form-container">
         <h2>Login</h2>
         <form method="post" class="form">
@@ -47,6 +52,7 @@
             {{ form.as_p }}
             <button type="submit" class="btn btn-login">Log In</button>
         </form>
+		<p>Don't have an account <a class="here" href="/register">Click here..</a></p>
     </div>
 </body>
 </html>

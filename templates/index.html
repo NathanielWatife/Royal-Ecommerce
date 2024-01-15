@@ -47,48 +47,9 @@
 	
 </head>
 <body class="js">
-	<!-- Preloader -->
-	<div class="preloader">
-		<div class="preloader-inner">
-			<div class="preloader-icon">
-				<span></span>
-				<span></span>
-			</div>
-		</div>
-	</div>
-	<!-- End Preloader -->
+	
 	<!-- Header -->
 	<header class="header shop">
-		<!-- Topbar -->
-		<div class="topbar">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-4 col-md-12 col-12">
-						<!-- Top Left -->
-						<div class="top-left">
-							<ul class="list-main">
-								<li><i class="ti-headphone-alt"></i> +060 (800) 801-582</li>
-								<li><i class="ti-email"></i> support@shophub.com</li>
-							</ul>
-						</div>
-						<!--/ End Top Left -->
-					</div>
-					<div class="col-lg-8 col-md-12 col-12">
-						<!-- Top Right -->
-						<div class="right-content">
-							<ul class="list-main">
-								<li><i class="ti-location-pin"></i> Store location</li>
-								<li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li>
-								<li><i class="ti-user"></i> <a href="#">My account</a></li>
-								<li><i class="ti-power-off"></i><a href="login.html#">Login</a></li>
-							</ul>
-						</div>
-						<!-- End Top Right -->
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Topbar -->
 		<div class="middle-inner">
 			<div class="container">
 				<div class="row">
@@ -116,12 +77,6 @@
 					<div class="col-lg-8 col-md-7 col-12">
 						<div class="search-bar-top">
 							<div class="search-bar">
-								{% comment %} <select>
-									<option selected="selected">All Category</option>
-									<option>watch</option>
-									<option>mobile</option>
-									<option>kid’s item</option>
-								</select> {% endcomment %}
 								<form>
 									<input name="search" placeholder="Search Products Here....." type="search">
 									<button class="btnn"><i class="ti-search"></i></button>
@@ -130,28 +85,28 @@
 						</div>
 					</div>
 					<div class="col-lg-2 col-md-3 col-12">
+						{% if user.is_authenticated %}
 						<div class="right-bar">
 							<!-- Search Form -->
 							<div class="sinlge-bar">
-								<a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+								<a href="/logout" class="single-icon"><i class="ti-power-off"></i></a>
+								
 							</div>
 							<div class="sinlge-bar">
-								<a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+								<a href="/profile" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
 							</div>
+							
 							<div class="sinlge-bar shopping">
 								<a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">2</span></a>
 								<!-- Shopping Item -->
 								<div class="shopping-item">
 									<div class="dropdown-cart-header">
 										<span>2 Items</span>
-										<a href="/cart">View Cart</a>
+										<a href="#">View Cart</a>
 									</div>
 									<ul class="shopping-list">
 										<li>
-											<a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
-											<a class="cart-img" href="#"><img src="https://via.placeholder.com/70x70" alt="#"></a>
-											<h4><a href="#">Woman Ring</a></h4>
-											<p class="quantity">1x - <span class="amount">$99.00</span></p>
+											<a href="/cart" class="single-icon"></a>
 										</li>
 										<li>
 											<a href="#" class="remove" title="Remove this item"><i class="fa fa-remove"></i></a>
@@ -171,7 +126,19 @@
 								<!--/ End Shopping Item -->
 							</div>
 						</div>
-					</div>
+						{% else %}
+						<div class="sinlge-bar shopping">
+							<h6 class="single-icon">ACCOUNTS</h6>
+							<div class="shopping-item">
+								<div class="dropdown-cart-header">
+									<a href="/register">Register</a>
+								</div>
+								<div class="dropdown-cart-header">
+									<a href="/login">SignIn</a>
+								</div>
+							</div>
+						</div>
+						{% endif %}
 				</div>
 			</div>
 		</div>
@@ -401,14 +368,17 @@
 																<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
 															</div>
 															<div class="product-action-2">
-																<a title="Add to cart" href="#">Add to cart</a>
+																<form method="post" action="/cart.product.id">
+																	{% csrf_token %}
+																	<a title="Add to cart" href="/cart">Add to cart</a>
+																</form>
 															</div>
 														</div>
 													</div>
 													<div class="product-content">
-														<h3><a href="product-details.html">Women Hot Collection</a></h3>
+														<h3><a href="product-details.html">{{ product.name }}</a></h3>
 														<div class="product-price">
-															<span>$29.00</span>
+															<span>{{ product.price }}</span>
 														</div>
 													</div>
 												</div>

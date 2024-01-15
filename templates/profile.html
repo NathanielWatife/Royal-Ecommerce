@@ -45,20 +45,15 @@
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 </head>
 <body>
-	{% for message  in messages %}
-	<h1 class="messages">
-		{{ message }}
-	</h1>
-	{% endfor %}
-		
 	<div class="form-container">
-        <h2>Create your account</h2>
-        <form method="post" class="form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-register">Sign Up</button>
-        </form>
-		<p>Do you have an account <a class="here" href="/login">Click here..</a></p>
+        <a href="/" class="btn animate">Home</a>
+		<h2>User Account</h2>
+		<form method="post" class="form">
+			{% csrf_token %}
+			{{ user_form.as_p }}
+			{{ profile_form.as_p }}
+			<button type="submit" class="btn btn-update">Update</button>
+		</form>
     </div>
 </body>
 </html>

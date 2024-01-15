@@ -6,6 +6,7 @@ Create a form for the user registration
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.contrib.auth.models import User
+from .models import UserProfile
 
 
 class SignUpForm(UserCreationForm):
@@ -53,4 +54,4 @@ class UserUpdateForm(UserChangeForm):
 class UserProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('address')
+        fields = ('address',)
