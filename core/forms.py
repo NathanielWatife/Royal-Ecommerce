@@ -6,11 +6,11 @@ Create a form for the user registration
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import UserProfile, ContactModel, NewsLetter
 
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(max_length=255, help_text='Required. Enter a valid email address', required=True)
+    email = forms.EmailField(max_length=255, help_text='Required', required=True)
     
     class Meta:
         model = User
@@ -55,3 +55,23 @@ class UserProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('address',)
+        
+        
+# contact page
+class ContactProfile(forms.ModelForm):
+    class Meta:
+        model = ContactModel
+        fields = (
+			'name',
+			'subject',	
+			'email',
+			'phone',
+			'message'
+		)
+
+
+
+class NewsLetterForm(forms.ModelForm):
+    class Meta:
+        model = NewsLetter
+        fields = ('email', )

@@ -1,4 +1,5 @@
 {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
@@ -12,37 +13,10 @@
     <title>Royal | Home</title>
 	<!-- Favicon -->
 	<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
-	<!-- Web Font -->
-	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
 	
 	<!-- StyleSheet -->
-	
-	<!-- Bootstrap -->
-	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-	<!-- Magnific Popup -->
-    <link rel="stylesheet" href="{% static 'css/magnific-popup.min.css' %}">
-	<!-- Font Awesome -->
-    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
-	<!-- Fancybox -->
-	<link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
-	<!-- Themify Icons -->
-    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
-	<!-- Nice Select CSS -->
-    <link rel="stylesheet" href="{% static 'niceselect.css' %}">
-	<!-- Animate CSS -->
-    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
-	<!-- Flex Slider CSS -->
-    <link rel="stylesheet" href="{% static 'css/flex-slider.min.css' %}">
-	<!-- Owl Carousel -->
-    <link rel="stylesheet" href="{% static 'css/owl-carousel.css' %}">
-	<!-- Slicknav -->
-    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}">
-	
-	<!-- Eshop StyleSheet -->
 	<link rel="stylesheet" href="{% static 'css/register.css' %}">
-	<link rel="stylesheet" href="{% static 'css/reset.css' %}">
-	<link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
 </head>
 <body>
 	{% for message  in messages %}
@@ -50,15 +24,20 @@
 		{{ message }}
 	</h1>
 	{% endfor %}
-		
-	<div class="form-container">
-        <h2>Create your account</h2>
-        <form method="post" class="form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-register">Sign Up</button>
-        </form>
-		<p>Do you have an account <a class="here" href="/login">Click here..</a></p>
-    </div>
+	{% for hidden in form.hidden_fields %}
+		{{ hidden }}
+	{% endfor %}
+
+	{% for field in form.visible_fields %}
+		<div class="form-container">
+			<h2>Create your account</h2>
+			<form method="post" class="form">
+				{% csrf_token %}
+				{{ field }}
+				<button type="submit" class="btn btn-register">Sign Up</button>
+			</form>
+			<p>Do you have an account <a class="here" href="/login">Click here..</a></p>
+		</div>
+	{% endfor %}
 </body>
 </html>

@@ -46,3 +46,23 @@ class CartItem(models.Model):
     def __str__(self):
         return self.cart
 	
+
+
+# models class for contact page
+class ContactModel(models.Model):
+    name = models.CharField(max_length=255, null=False, blank=False)
+    subject = models.CharField(max_length=255, null=False, blank=False)
+    email = models.CharField(max_length=100, blank=False)
+    phone = models.CharField(max_length=15, null=False, blank=False)
+    message = models.TextField()
+    
+    def __str__(self):
+        return self.email
+    
+
+class NewsLetter(models.Model):
+    email = models.CharField(max_length=70, null=True, blank=True)
+    
+    def __str__(self):
+        return self.email
+	
