@@ -5,14 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from .models import UserProfile, Cart, CartItem, Product, ContactModel, NewsLetter
-# new imports
-from django.http import HttpResponse
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.template.loader import render_to_string
-from .token import account_activation_token
-from django.core.mail import EmailMessage
-from django.contrib.auth.models import User
+
 
 
 # Create your views here.
@@ -55,10 +48,10 @@ def newsLetter(request):
         if newsletter.is_valid():
             newsletter.save()
             messages.success(request, 'Thank you for Subscribing.')
-        return redirect('/')
+        return redirect('/index')
     else:
         newsletter = NewsLetterForm()
-    return redirect('/', {'newsletter': newsletter})
+    return redirect('/home', {'newsletter': newsletter})
 
 
 """
@@ -115,49 +108,12 @@ def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            # save form in the memory not in the database
-            user = form.save(commit=False)
-            user.is_active = False
             form.save()
-            # to get th domain of current site
-            current_site = get_current_site(request)
-            mail_subject = 'Activation link has been sent to your email id'
-            message = render_to_string(
-                'acc_active_email.html',
-                {
-					'user':user,
-					'domain':current_site.domain,
-					'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-					'token':account_activateion_token.make_token(user),
-				}
-            )
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
-            return HttpResponse('Please confirn your email address to complete the registration')
+            return redirect('/home')
     else:
         form = SignUpForm()
     return render(request, 'register.html', {'form':form})
 
-
-"""
-email activation
-"""
-def activate(request, uidb64, token):
-    User = get_user_models()
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    
-    if user is not None and account_activateion_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
-    else:
-        return HttpResponse('Acitvation link is invalid!')
 
 
 """
@@ -167,10 +123,16 @@ def signIn(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            messages.success(request, 'Successful login.')
-            return redirect('/')
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request,  username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Successful login.')
+                return redirect('/home')
+            else:
+                # If authentication fails, add an error message to the form
+                form.add_error(None, 'Invalid username or password.')
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form':form})
