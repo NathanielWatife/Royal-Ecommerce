@@ -16,6 +16,11 @@ from django.contrib.auth.models import User
 
 
 # Create your views here.
+def base(request):
+    return render(request, 'base.html')
+
+
+
 @login_required(login_url='/login')
 def home(request):
     return render(request, 'index.html')

@@ -38,3 +38,9 @@
 	text-decoration: underline;
 	font-size: 15px;
 }
+
+.messages {
+	color: #ff0000;
+	font-size: 15px;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
